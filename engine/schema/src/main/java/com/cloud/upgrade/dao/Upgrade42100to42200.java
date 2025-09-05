@@ -14,20 +14,17 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-package com.cloud.utils.validation;
+package com.cloud.upgrade.dao;
 
-import com.cloud.utils.exception.CloudRuntimeException;
-import com.cloud.utils.script.Script;
-import org.apache.cloudstack.utils.security.DigestHelper;
+public class Upgrade42100to42200 extends DbUpgradeAbstractImpl implements DbUpgrade, DbUpgradeSystemVmTemplate {
 
-import java.io.File;
+    @Override
+    public String[] getUpgradableVersionRange() {
+        return new String[]{"4.21.0.0", "4.22.0.0"};
+    }
 
-public class ChecksumUtil {
-    public static String calculateCurrentChecksum(String name, String path) {
-        String cloudScriptsPath = Script.findScript("", path);
-        if (cloudScriptsPath == null) {
-            throw new CloudRuntimeException(String.format("Unable to find cloudScripts path, cannot update SystemVM %s", name));
-        }
-        return DigestHelper.calculateChecksum(new File(cloudScriptsPath));
+    @Override
+    public String getUpgradedVersion() {
+        return "4.22.0.0";
     }
 }
